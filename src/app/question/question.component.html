@@ -5,6 +5,6 @@
     [class]="getButtonClass(answer)"
     *ngFor="let answer of question.all_answers"
     [innerHTML]="answer"
-    trackBy="trackByQuestionId(answer)"
   ></button>
+  <ng-content></ng-content>
 </div>

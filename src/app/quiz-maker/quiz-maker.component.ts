@@ -1,7 +1,8 @@
 import { Component } from '@angular/core';
-import { Category, Difficulty, Question } from '../data.models';
-import { Observable } from 'rxjs';
+import { BasicDetail, Category, Difficulty, Question } from '../data.models';
+import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { QuizService } from '../quiz.service';
+import { QuizAdapterService } from '../quiz-adapter.service';
 
 @Component({
   selector: 'app-quiz-maker',
@@ -10,17 +11,50 @@ import { QuizService } from '../quiz.service';
 })
 export class QuizMakerComponent {
   categories$: Observable<Category[]>;
-  questions$!: Observable<Question[]>;
+  questions$: Subject<Question[]> = new BehaviorSubject<Question[]>([]);
+  categorySelected: Category | null = null;
+  subCategorySelected: BasicDetail = {} as BasicDetail;
+  searchText: string = '';
+  selectedCategoryId: number = 0;
 
-  constructor(protected quizService: QuizService) {
+  constructor(
+    protected quizService: QuizService,
+    protected quizAdapterService: QuizAdapterService
+  ) {
     this.categories$ = quizService.getAllCategories();
   }
 
-  createQuiz(cat: string, difficulty: string): void {
-    this.questions$ = this.quizService.createQuiz(
-      cat,
-      difficulty as Difficulty
-    );
+  createQuiz(difficulty: string): void {
+    let catId = this.getCategoryId();
+    this.quizAdapterService
+      .createQuiz(catId as number, difficulty as Difficulty)
+      .subscribe((data) => this.questions$.next(data));
+  }
+
+  changeQuestion(index: number, difficulty: string) {
+    let catId = this.getCategoryId();
+    this.quizAdapterService
+      .updateQuiz(
+        catId as number,
+        difficulty as Difficulty,
+        this.questions$,
+        index
+      )
+      .subscribe((data) => this.questions$.next(data));
+  }
+
+  getCategoryId() {
+    return this.categorySelected?.isSubExists
+      ? this.subCategorySelected.id
+      : this.categorySelected?.id;
+  }
+
+  getSelectedCategory($event: Category) {
+    this.categorySelected = $event;
+  }
+
+  getSelectedSubCategory($event: Category) {
+    this.subCategorySelected = $event;
   }
 
   trackByCategoryId(category: Category) {

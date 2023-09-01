@@ -3,7 +3,9 @@ import {
   Component,
   EventEmitter,
   Input,
+  OnChanges,
   Output,
+  SimpleChanges,
 } from '@angular/core';
 import { Question } from '../data.models';
 
@@ -12,13 +14,14 @@ import { Question } from '../data.models';
   templateUrl: './question.component.html',
   styleUrls: ['./question.component.css'],
 })
-export class QuestionComponent {
+export class QuestionComponent implements OnChanges {
   @Input({ required: true })
   question!: Question;
   @Input()
   correctAnswer?: string;
   @Input()
   userAnswer?: string;
+  displayChangeOption = true;
 
   getButtonClass(answer: string): string {
     if (!this.userAnswer) {
@@ -41,7 +44,8 @@ export class QuestionComponent {
     this.change.emit(answer);
   }
 
-  trackByQuestionId(item: string) {
-    return item;
+  ngOnChanges(changes: SimpleChanges): void {
+    console.log(changes);
+    debugger;
   }
 }

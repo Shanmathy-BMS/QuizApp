@@ -1,30 +1,61 @@
-<div class="row">
-  <div class="col-sm-11">
-    <select #category id="categorySelect">
-      <option>Select category</option>
-      <option
-        [value]="category.id"
-        *ngFor="let category of categories$ | async"
-        trackBy="trackByCategoryId(category)"
+<div *ngIf="categories$ | async as categories">
+  <div class="row">
+    <div class="col-sm-11">
+      <label for="categorySelect">category:</label>
+      <input
+        type="text"
+        id="categorySearch"
+        name="categorySearch"
+        autocomplete="off"
+      />
+      <ul
+        id="categoryList"
+        search
+        [inputElementId]="'categorySearch'"
+        [listElementId]="'categoryList'"
+        [data]="categories"
+        [classToApply]="'font-weight-bold'"
+        (selected)="getSelectedCategory($event)"
+      ></ul>
+
+      <label *ngIf="categorySelected?.isSubExists" for="categorySelect"
+        >Sub category:</label
       >
-        {{ category.name }}
-      </option>
-    </select>
-    <select #difficulty id="difficultySelect">
-      <option>Select difficulty</option>
-      <option>Easy</option>
-      <option>Medium</option>
-      <option>Hard</option>
-    </select>
-    <button
-      class="primary"
-      id="createBtn"
-      (click)="createQuiz(category.value, difficulty.value)"
-    >
-      Create
-    </button>
+      <input
+        *ngIf="categorySelected?.isSubExists"
+        type="text"
+        id="subCategorySearch"
+        name="subCategorySearch"
+        autocomplete="off"
+      />
+      <ul
+        id="subCategoryList"
+        search
+        [inputElementId]="'subCategorySearch'"
+        [listElementId]="'subCategoryList'"
+        [data]="categorySelected?.subCategory"
+        [classToApply]="'font-weight-bold'"
+        (selected)="getSelectedSubCategory($event)"
+      ></ul>
+      <select #difficulty id="difficultySelect">
+        <option>Select difficulty</option>
+        <option>Easy</option>
+        <option>Medium</option>
+        <option>Hard</option>
+      </select>
+      <button
+        class="primary"
+        id="createBtn"
+        (click)="createQuiz(difficulty.value)"
+      >
+        Create
+      </button>
+    </div>
   </div>
-</div>
-<div class="row">
-  <app-quiz [questions]="questions$ | async"></app-quiz>
+  <div class="row">
+    <app-quiz
+      [questions]="questions$ | async"
+      (changeQuestion)="changeQuestion($event, difficulty.value)"
+    ></app-quiz>
+  </div>
 </div>

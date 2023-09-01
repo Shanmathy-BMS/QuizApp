@@ -28,44 +28,41 @@ export class QuizService {
     const uniqueCategory: Record<string, Category> = {};
     categories.map((category) => {
       category.isSubExists = category.name.includes(':') ? true : false;
-      const uniqueCategoryTitle = category.isSubExists
-        ? category.name.split(':')[0]
-        : category.name;
-      const uniqueSubCategoryTitle = category.isSubExists
-        ? category.name.split(':')[1]
-        : '';
-      category.name = uniqueCategoryTitle;
+      let uniqueCategoryTitle = category.name,
+        uniqueSubCategoryTitle = '';
+      if (category.isSubExists) {
+        uniqueCategoryTitle = category.name.split(':')[0];
+        uniqueSubCategoryTitle = category.name.split(':')[1];
+      }
       uniqueCategory[uniqueCategoryTitle] = {
         ...uniqueCategory[uniqueCategoryTitle],
         ...category,
+        name: uniqueCategoryTitle,
       };
       if (
         uniqueCategory[uniqueCategoryTitle].isSubExists &&
-        !uniqueCategory[uniqueCategoryTitle].sub_category
+        !uniqueCategory[uniqueCategoryTitle].subCategory
       ) {
-        uniqueCategory[uniqueCategoryTitle].sub_category = [];
+        uniqueCategory[uniqueCategoryTitle].subCategory = [];
       }
-      uniqueCategory[uniqueCategoryTitle].sub_category?.push({
+      uniqueCategory[uniqueCategoryTitle].subCategory?.push({
         id: category.id,
         name: uniqueSubCategoryTitle.trim(),
       });
     });
-    debugger;
-    // const categoryMap = new Map(
-    //   categories.map((category) => [category.name, category])
-    // );
     return Object.values(uniqueCategory);
   }
 
   createQuiz(
-    categoryId: string,
-    difficulty: Difficulty
+    categoryId: number,
+    difficulty: Difficulty,
+    updateOneQuiz = false
   ): Observable<Question[]> {
     return this.http
       .get<{ results: ApiQuestion[] }>(
-        `${
-          this.API_URL
-        }/api.php?amount=5&category=${categoryId}&difficulty=${difficulty.toLowerCase()}&type=multiple`
+        `${this.API_URL}/api.php?amount=${
+          updateOneQuiz ? 1 : 5
+        }&category=${categoryId}&difficulty=${difficulty.toLowerCase()}&type=multiple`
       )
       .pipe(
         map((res) => {
