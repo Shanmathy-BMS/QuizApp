@@ -9,8 +9,6 @@ import { QuizMakerComponent } from './quiz-maker/quiz-maker.component';
 import { QuizComponent } from './quiz/quiz.component';
 import { QuestionComponent } from './question/question.component';
 import { AnswersComponent } from './answers/answers.component';
-import { FilterPipe } from './filter.pipe';
-import { HighlightDirective } from './highlight.directive';
 import { SearchDirective } from './search.directive';
 import { HighlightPipe } from './highlight.pipe';
 
@@ -21,8 +19,6 @@ import { HighlightPipe } from './highlight.pipe';
     QuizComponent,
     QuestionComponent,
     AnswersComponent,
-    FilterPipe,
-    HighlightDirective,
     SearchDirective,
     HighlightPipe,
   ],

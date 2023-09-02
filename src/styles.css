@@ -1,5 +1,11 @@
 /* You can add global styles to this file, and also import other style files */
 @import "../node_modules/mini.css/dist/mini-default.min.css";
-.font-weight-bold {
-    font-weight: 900;
+label{
+    display:block;
+}
+.list-style-none {
+    list-style-type: none;
+}
+.list-style-none:hover {
+    background-color: lightgray;
 }

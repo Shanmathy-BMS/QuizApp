@@ -42,7 +42,6 @@ export class SearchDirective implements OnChanges {
     });
     document.addEventListener('click', (event) => {
       let isInputFocused = event.target === this.searchInput;
-      //let isListFocused = this.searchResults?.contains(event.target);
       if (!isInputFocused) {
         (this.searchResults as HTMLInputElement).innerHTML = '';
       }
@@ -62,6 +61,7 @@ export class SearchDirective implements OnChanges {
       this.searchResults.innerHTML = '';
       results?.forEach((result: Category | BasicDetail) => {
         let li = document.createElement('li');
+        li.classList.add('list-style-none');
         li.innerHTML = this.highlight.transform(result, this.query);
         li.addEventListener('click', () => {
           result.name = result.name.replace(/(<strong>|<\/strong>)/gim, '');

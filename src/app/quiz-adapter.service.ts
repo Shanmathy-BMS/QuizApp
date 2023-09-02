@@ -18,8 +18,6 @@ export class QuizAdapterService {
     index?: number
   ): Observable<Question[]> {
     return this.quizService.createQuiz(cat, difficulty as Difficulty);
-    // .pipe(
-    // map((response) => response).mergeMap(question  => questions))
   }
   updateQuiz(
     cat: number,
@@ -27,17 +25,6 @@ export class QuizAdapterService {
     questions: Observable<Question[]>,
     index: number
   ): Observable<Question[]> {
-    // return forkJoin({
-    //   existing: questions,
-    //   update: this.quizService.createQuiz(cat, difficulty as Difficulty, true),
-    // }).pipe(
-    //   map((data: { existing: Question[]; update: Question[] }) => {
-    //     const updatedData = { ...data.existing };
-    //     updatedData[index] = data.update[0];
-    //     return updatedData;
-    //   })
-    // );
-
     return questions.pipe(
       take(1),
       switchMap((exisingQns) => {
