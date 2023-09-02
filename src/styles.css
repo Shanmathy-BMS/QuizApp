@@ -9,3 +9,6 @@ label{
 .list-style-none:hover {
     background-color: lightgray;
 }
+button.secondary{
+    background-color: black;
+}
