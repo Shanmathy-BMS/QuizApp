@@ -1,16 +1,17 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
-import { AppRoutingModule } from './app-routing.module';
-import { AppComponent } from './app.component';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
+import { AnswersComponent } from './answers/answers.component';
+import { AppRoutingModule } from './app-routing.module';
+import { AppComponent } from './app.component';
+import { HighlightPipe } from './highlight.pipe';
+import { LoaderComponent } from './loader/loader.component';
+import { QuestionComponent } from './question/question.component';
 import { QuizMakerComponent } from './quiz-maker/quiz-maker.component';
 import { QuizComponent } from './quiz/quiz.component';
-import { QuestionComponent } from './question/question.component';
-import { AnswersComponent } from './answers/answers.component';
 import { SearchDirective } from './search.directive';
-import { HighlightPipe } from './highlight.pipe';
 
 @NgModule({
   declarations: [
@@ -21,6 +22,7 @@ import { HighlightPipe } from './highlight.pipe';
     AnswersComponent,
     SearchDirective,
     HighlightPipe,
+    LoaderComponent,
   ],
   imports: [BrowserModule, AppRoutingModule, HttpClientModule, FormsModule],
   providers: [HighlightPipe],

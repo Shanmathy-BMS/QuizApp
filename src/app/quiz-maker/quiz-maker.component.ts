@@ -1,8 +1,8 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { BasicDetail, Category, Difficulty, Question } from '../data.models';
-import { BehaviorSubject, Observable, Subject } from 'rxjs';
-import { QuizService } from '../quiz.service';
 import { QuizAdapterService } from '../quiz-adapter.service';
+import { QuizService } from '../quiz.service';
 
 @Component({
   selector: 'app-quiz-maker',

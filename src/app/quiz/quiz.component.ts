@@ -1,15 +1,7 @@
-import {
-  Component,
-  EventEmitter,
-  inject,
-  Input,
-  OnChanges,
-  Output,
-  SimpleChanges,
-} from '@angular/core';
+import { Component, EventEmitter, inject, Input, Output } from '@angular/core';
+import { Router } from '@angular/router';
 import { Question } from '../data.models';
 import { QuizService } from '../quiz.service';
-import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-quiz',
@@ -36,7 +28,6 @@ export class QuizComponent {
   }
 
   changeButtonClicked(index: number) {
-    this.isChangeQuestionAllowed = false;
     this.changeQuestion.emit(index);
   }
 }

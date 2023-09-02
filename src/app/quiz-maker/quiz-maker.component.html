@@ -1,4 +1,4 @@
-<div *ngIf="categories$ | async as categories">
+<div *ngIf="categories$ | async as categories; else categoriesNotLoaded">
   <div class="row">
     <div class="col-sm-11">
       <label for="categorySelect">Select Category</label>
@@ -60,3 +60,6 @@
     ></app-quiz>
   </div>
 </div>
+<ng-template #categoriesNotLoaded>
+  <app-loader></app-loader>
+</ng-template>
