@@ -14,7 +14,7 @@ import { Question } from '../data.models';
   templateUrl: './question.component.html',
   styleUrls: ['./question.component.css'],
 })
-export class QuestionComponent implements OnChanges {
+export class QuestionComponent {
   @Input({ required: true })
   question!: Question;
   @Input()
@@ -42,10 +42,5 @@ export class QuestionComponent implements OnChanges {
   buttonClicked(answer: string): void {
     this.currentSelection = answer;
     this.change.emit(answer);
-  }
-
-  ngOnChanges(changes: SimpleChanges): void {
-    console.log(changes);
-    debugger;
   }
 }

@@ -54,7 +54,8 @@
   </div>
   <div class="row">
     <app-quiz
-      [questions]="questions$ | async"
+      [questions]="(questions$ | async)!"
+      [isChangeQuestionAllowed]="(isQuestionChangeAllowed | async)!"
       (changeQuestion)="changeQuestion($event, difficulty.value)"
     ></app-quiz>
   </div>

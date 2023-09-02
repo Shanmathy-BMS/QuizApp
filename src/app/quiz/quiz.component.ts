@@ -16,22 +16,20 @@ import { Router } from '@angular/router';
   templateUrl: './quiz.component.html',
   styleUrls: ['./quiz.component.css'],
 })
-export class QuizComponent implements OnChanges {
+export class QuizComponent {
   @Input()
-  questions: Question[] | null = [];
+  questions: Question[] = [];
 
   @Output()
   changeQuestion = new EventEmitter<number>();
-  isChangeQuestionAllowed = true;
+
+  @Input()
+  isChangeQuestionAllowed: boolean = true;
 
   userAnswers: string[] = [];
   quizService = inject(QuizService);
   router = inject(Router);
-  ngOnChanges(changes: SimpleChanges): void {
-    if (changes['questions']?.currentValue?.length === 5) {
-      this.isChangeQuestionAllowed = true;
-    }
-  }
+
   submit(): void {
     this.quizService.computeScore(this.questions ?? [], this.userAnswers);
     this.router.navigateByUrl('/result');

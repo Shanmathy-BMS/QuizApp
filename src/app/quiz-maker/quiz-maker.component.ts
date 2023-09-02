@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { BasicDetail, Category, Difficulty, Question } from '../data.models';
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { QuizService } from '../quiz.service';
@@ -8,10 +8,13 @@ import { QuizAdapterService } from '../quiz-adapter.service';
   selector: 'app-quiz-maker',
   templateUrl: './quiz-maker.component.html',
   styleUrls: ['./quiz-maker.component.css'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class QuizMakerComponent {
   categories$: Observable<Category[]>;
-  questions$: Subject<Question[]> = new BehaviorSubject<Question[]>([]);
+  questions$: BehaviorSubject<Question[]> = new BehaviorSubject<Question[]>([]);
+  isQuestionChangeAllowed: BehaviorSubject<boolean> =
+    new BehaviorSubject<boolean>(true);
   categorySelected: Category | null = null;
   subCategorySelected: BasicDetail = {} as BasicDetail;
   searchText: string = '';
@@ -28,7 +31,10 @@ export class QuizMakerComponent {
     let catId = this.getCategoryId();
     this.quizAdapterService
       .createQuiz(catId as number, difficulty as Difficulty)
-      .subscribe((data) => this.questions$.next(data));
+      .subscribe((data) => {
+        this.isQuestionChangeAllowed.next(true);
+        this.questions$.next(data);
+      });
   }
 
   changeQuestion(index: number, difficulty: string) {
@@ -40,7 +46,10 @@ export class QuizMakerComponent {
         this.questions$,
         index
       )
-      .subscribe((data) => this.questions$.next(data));
+      .subscribe((data) => {
+        this.isQuestionChangeAllowed.next(false);
+        this.questions$.next(data);
+      });
   }
 
   getCategoryId() {

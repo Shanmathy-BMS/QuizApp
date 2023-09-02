@@ -11,12 +11,7 @@ export class QuizAdapterService {
 
   constructor(protected quizService: QuizService) {}
 
-  createQuiz(
-    cat: number,
-    difficulty: string,
-    questions?: Observable<Question[]>,
-    index?: number
-  ): Observable<Question[]> {
+  createQuiz(cat: number, difficulty: string): Observable<Question[]> {
     return this.quizService.createQuiz(cat, difficulty as Difficulty);
   }
   updateQuiz(
