@@ -4,8 +4,10 @@ import {
   EventEmitter,
   HostListener,
   Input,
+  OnChanges,
   Output,
   Renderer2,
+  SimpleChanges,
 } from '@angular/core';
 import { BasicDetail, Category } from './data.models';
 import { HighlightPipe } from './highlight.pipe';
@@ -13,7 +15,7 @@ import { HighlightPipe } from './highlight.pipe';
 @Directive({
   selector: '[search]',
 })
-export class SearchDirective {
+export class SearchDirective implements OnChanges {
   @Input() inputElementId: string = '';
   @Input() listElementId: string = '';
   @Input() classToApply: string = '';
@@ -54,6 +56,12 @@ export class SearchDirective {
     }
   }
 
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes.hasOwnProperty('data')) {
+      this.setValue('');
+    }
+  }
+
   resetSearchValues(): void {
     this.displayResults(this.filterResults(this.query));
   }
@@ -73,11 +81,7 @@ export class SearchDirective {
         this.query = result.name;
         this.clearSearchResults();
         this.selected.emit(result);
-        this.renderer.setProperty(
-          this.elementRef.nativeElement,
-          'value',
-          this.query
-        );
+        this.setValue(this.query);
       });
       this.renderer.appendChild(this.dropdownList, li);
     });
@@ -92,5 +96,10 @@ export class SearchDirective {
 
   clearSearchResults(): void {
     this.dropdownList.replaceChildren('');
+  }
+
+  setValue(val: string) {
+    this.query = val;
+    this.renderer.setProperty(this.elementRef.nativeElement, 'value', val);
   }
 }
