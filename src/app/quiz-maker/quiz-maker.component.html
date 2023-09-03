@@ -1,42 +1,32 @@
 <div *ngIf="categories$ | async as categories; else categoriesNotLoaded">
   <div class="row">
     <div class="col-sm-11">
-      <label for="categorySelect">Select Category</label>
+      <label for="categorySearch">Select Category</label>
       <input
         type="text"
         id="categorySearch"
         name="categorySearch"
         autocomplete="off"
-      />
-      <ul
-        id="categoryList"
         search
-        [inputElementId]="'categorySearch'"
-        [listElementId]="'categoryList'"
         [data]="categories"
-        [classToApply]="'font-weight-bold'"
         (selected)="getSelectedCategory($event)"
-      ></ul>
-
-      <label *ngIf="categorySelected?.isSubExists" for="categorySelect"
-        >Select Sub-category</label
-      >
-      <input
-        *ngIf="categorySelected?.isSubExists"
-        type="text"
-        id="subCategorySearch"
-        name="subCategorySearch"
-        autocomplete="off"
       />
-      <ul
-        id="subCategoryList"
-        search
-        [inputElementId]="'subCategorySearch'"
-        [listElementId]="'subCategoryList'"
-        [data]="categorySelected?.subCategory"
-        [classToApply]="'font-weight-bold'"
-        (selected)="getSelectedSubCategory($event)"
-      ></ul>
+    </div>
+    <ng-container *ngIf="categorySelected?.isSubExists">
+      <div class="col-sm-11">
+        <label for="subCategorySearch">Select Sub-category</label>
+        <input
+          type="text"
+          id="subCategorySearch"
+          name="subCategorySearch"
+          autocomplete="off"
+          search
+          [data]="categorySelected?.subCategory"
+          (selected)="getSelectedSubCategory($event)"
+        />
+      </div>
+    </ng-container>
+    <div class="col-sm-11">
       <label for="difficultySelect">Select difficulty</label>
       <select #difficulty id="difficultySelect">
         <option>Easy</option>
