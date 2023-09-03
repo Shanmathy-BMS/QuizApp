@@ -7,18 +7,12 @@
         id="categorySearch"
         name="categorySearch"
         autocomplete="off"
-      />
-      <ul
-        id="categoryList"
         search
-        [inputElementId]="'categorySearch'"
-        [listElementId]="'categoryList'"
         [data]="categories"
-        [classToApply]="'font-weight-bold'"
         (selected)="getSelectedCategory($event)"
-      ></ul>
+      />
 
-      <label *ngIf="categorySelected?.isSubExists" for="categorySelect"
+      <label *ngIf="categorySelected?.isSubExists" for="subCategorySearch"
         >Select Sub-category</label
       >
       <input
@@ -27,16 +21,10 @@
         id="subCategorySearch"
         name="subCategorySearch"
         autocomplete="off"
-      />
-      <ul
-        id="subCategoryList"
         search
-        [inputElementId]="'subCategorySearch'"
-        [listElementId]="'subCategoryList'"
         [data]="categorySelected?.subCategory"
-        [classToApply]="'font-weight-bold'"
         (selected)="getSelectedSubCategory($event)"
-      ></ul>
+      />
       <label for="difficultySelect">Select difficulty</label>
       <select #difficulty id="difficultySelect">
         <option>Easy</option>
