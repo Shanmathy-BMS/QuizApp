@@ -16,12 +16,22 @@ export class QuestionComponent {
   displayChangeOption = true;
 
   getButtonClass(answer: string): string {
+    let colorCode = 'primary';
     if (!this.userAnswer) {
-      if (this.currentSelection == answer) return 'tertiary';
+      if (this.currentSelection == answer) colorCode = 'tertiary';
     } else {
-      if (this.userAnswer == this.correctAnswer && this.userAnswer == answer)
-        return 'tertiary';
-      if (answer == this.correctAnswer) return 'secondary';
+      colorCode = this.showQuizResultAnswers(answer);
+    }
+    return colorCode;
+  }
+
+  private showQuizResultAnswers(answer: string): string {
+    debugger;
+    if (this.correctAnswer == answer) {
+      return 'tertiary';
+    }
+    if (this.userAnswer != this.correctAnswer && this.userAnswer == answer) {
+      return 'secondary';
     }
     return 'primary';
   }
